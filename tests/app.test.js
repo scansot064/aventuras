@@ -21,6 +21,14 @@
       assert($("footer").textContent.includes("Unsaved changes will be lost"), "Show the save warning in English");
       assert($("#save").textContent === "Save Story" && $("#load").textContent === "Load Story" &&
         $("#file").accept === ".sto", "Use story labels and filter for story files");
+      const info = $(".sidebar > details.info");
+      assert(info && !info.open && $(".sidebar > .panel:first-child #map"), "Place collapsed story information below the map");
+      info.querySelector("summary").click();
+      assert(info.open, "Expand story information");
+      change("#story-title", "My adventure");
+      change("#story-author", "The author");
+      info.querySelector("summary").click();
+      assert(!info.open, "Collapse story information");
       change("#section-name", "introduction");
       assert($("#editor-heading").textContent === "1. introduction (Start)" &&
         $("#map").textContent.includes("1. introduction"), "Show the number and current name");
@@ -82,6 +90,7 @@
       const story = JSON.parse(await saved.text());
       assert(story.sections[1].name === "The battle" && story.sections[2].name === "Saltar",
         "Save manual and generated names");
+      assert(story.title === "My adventure" && story.author === "The author", "Save collapsed story information");
       assert(story.sections[0].choices[0].target === 2 && story.sections[1].choices[0].target === 3,
         "Preserve branch destinations");
       assert(story.transitionText === "", "Save an intentionally blank transition");
@@ -95,6 +104,9 @@
         await new Promise(resolve => setTimeout(resolve, 10));
       }
       assert($("#status").textContent === "Historia cargada.", "Reload the saved story");
+      info.querySelector("summary").click();
+      assert($("#story-title").value === "My adventure" && $("#story-author").value === "The author",
+        "Restore story information after reloading");
       assert($("#map").textContent.includes("2. The battle"), "Keep manual names after reloading");
       assert($(".choice-transition").textContent === "", "Keep a blank transition after reloading");
       change(".choice input", "A different choice");

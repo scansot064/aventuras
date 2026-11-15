@@ -32,22 +32,24 @@
       </div>
     </header>
     <main>
-      <section class="info panel">
-        <h2 data-i18n="storyInfo">Story information</h2>
-        <div class="fields">
-          <label><span data-i18n="title">Title</span><input id="story-title" type="text"></label>
-          <label><span data-i18n="author">Author</span><input id="story-author" type="text"></label>
-          <label><span data-i18n="transitionText">Choice transition text</span><input id="transition-text" type="text"></label>
-        </div>
-      </section>
       <div class="workspace">
-        <aside class="panel">
-          <div class="section-heading">
-            <h2 data-i18n="mindMap">Story map</h2>
-            <button id="add-section" type="button" data-i18n="addSection">Add section</button>
+        <aside class="sidebar">
+          <div class="panel">
+            <div class="section-heading">
+              <h2 data-i18n="mindMap">Story map</h2>
+              <button id="add-section" type="button" data-i18n="addSection">Add section</button>
+            </div>
+            <p class="hint" data-i18n="mapHint">Expand branches and select a section to edit it. The first section is the starting point.</p>
+            <div id="map"></div>
           </div>
-          <p class="hint" data-i18n="mapHint">Expand branches and select a section to edit it. The first section is the starting point.</p>
-          <div id="map"></div>
+          <details class="info panel">
+            <summary><h2 data-i18n="storyInfo">Story information</h2></summary>
+            <div class="fields">
+              <label><span data-i18n="title">Title</span><input id="story-title" type="text"></label>
+              <label><span data-i18n="author">Author</span><input id="story-author" type="text"></label>
+              <label><span data-i18n="transitionText">Choice transition text</span><input id="transition-text" type="text"></label>
+            </div>
+          </details>
         </aside>
         <section class="panel editor">
           <div class="section-heading">
