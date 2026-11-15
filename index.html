@@ -18,13 +18,16 @@
 <body>
   <div id="app">
     <header>
-      <h1 data-i18n="appTitle">Adventure Maker</h1>
+      <div class="brand">
+        <p class="brand-kicker" data-i18n="tagline">A storytelling workshop</p>
+        <h1 data-i18n="appTitle">Adventure Maker</h1>
+      </div>
       <div class="actions">
         <label for="language" data-i18n="language">Language</label>
         <select id="language"><option value="en">English</option><option value="es">Español</option></select>
-        <button id="save" type="button" data-i18n="save">Save JSON</button>
-        <button id="load" type="button" data-i18n="load">Load JSON</button>
-        <input id="file" type="file" accept=".json,application/json" hidden>
+        <button id="save" type="button" data-i18n="save">Save Story</button>
+        <button id="load" type="button" data-i18n="load">Load Story</button>
+        <input id="file" type="file" accept=".sto" hidden>
         <button id="print" type="button" data-i18n="print">Save A5 PDF</button>
       </div>
     </header>
@@ -79,7 +82,7 @@
         </section>
       </div>
     </main>
-    <footer class="save-warning" data-i18n="saveWarning">Important: Save your work as JSON regularly. Unsaved changes will be lost if you refresh or close this page.</footer>
+    <footer class="save-warning" data-i18n="saveWarning">Important: Save your story regularly. Unsaved changes will be lost if you refresh or close this page.</footer>
   </div>
 </body>
 </html>

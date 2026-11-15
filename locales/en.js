@@ -1,6 +1,6 @@
 window.locales = window.locales || {};
 window.locales.en = {
-  appTitle: "Adventure Maker", language: "Language", save: "Save JSON", load: "Load JSON",
+  appTitle: "Adventure Maker", tagline: "A storytelling workshop", language: "Language", save: "Save Story", load: "Load Story",
   print: "Save A5 PDF", storyInfo: "Story information", title: "Title", author: "Author",
   mindMap: "Story map", addSection: "Add section",
   mapHint: "Expand branches and select a section to edit it. The first section is the starting point.",
@@ -14,7 +14,7 @@ window.locales.en = {
   transitionText: "Choice transition text", defaultTransition: "Go to page", end: "END", by: "by",
   deleteConfirm: "Delete this section? Choices and loops pointing to it will be cleared.",
   loadConfirm: "Replace the current story with the loaded file? Save your work first.",
-  saveWarning: "Important: Save your work as JSON regularly. Unsaved changes will be lost if you refresh or close this page.",
+  saveWarning: "Important: Save your story regularly. Unsaved changes will be lost if you refresh or close this page.",
   loadError: "Could not load this story: {message}", saved: "Story saved.",
   loaded: "Story loaded.", invalidFile: "Invalid or unsupported story file.",
   invalidReferences: "Every choice and enabled loop needs a destination before printing.",

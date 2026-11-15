@@ -257,7 +257,7 @@
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "adventure.json";
+    link.download = "adventure.sto";
     link.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     $("status").textContent = t("saved");

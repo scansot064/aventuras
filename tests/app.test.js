@@ -19,6 +19,8 @@
       }
 
       assert($("footer").textContent.includes("Unsaved changes will be lost"), "Show the save warning in English");
+      assert($("#save").textContent === "Save Story" && $("#load").textContent === "Load Story" &&
+        $("#file").accept === ".sto", "Use story labels and filter for story files");
       change("#section-name", "introduction");
       assert($("#editor-heading").textContent === "1. introduction (Start)" &&
         $("#map").textContent.includes("1. introduction"), "Show the number and current name");
@@ -26,6 +28,8 @@
       assert($(".choice-transition").textContent === "Go to page", "Show the default transition");
       change("#language", "es", "change");
       assert($(".choice-transition").textContent === "Ve a la página", "Localize the default transition");
+      assert($("#save").textContent === "Guardar historia" && $("#load").textContent === "Cargar historia",
+        "Localize the story file controls");
       assert($("footer").textContent.includes("Los cambios sin guardar se perderán"), "Localize the save warning");
       change("#language", "en", "change");
       change(".choice input", "If you want to fight");
@@ -66,13 +70,15 @@
         "Use just the choice text in Spanish too");
 
       let saved;
+      let filename;
       const createObjectURL = win.URL.createObjectURL;
       win.URL.createObjectURL = blob => {
         saved = blob;
         return createObjectURL.call(win.URL, blob);
       };
-      win.HTMLAnchorElement.prototype.click = function () {};
+      win.HTMLAnchorElement.prototype.click = function () { filename = this.download; };
       $("#save").click();
+      assert(filename === "adventure.sto", "Download a .sto story file");
       const story = JSON.parse(await saved.text());
       assert(story.sections[1].name === "The battle" && story.sections[2].name === "Saltar",
         "Save manual and generated names");
@@ -82,7 +88,7 @@
 
       win.confirm = () => true;
       const transfer = new win.DataTransfer();
-      transfer.items.add(new win.File([JSON.stringify(story)], "story.json", { type: "application/json" }));
+      transfer.items.add(new win.File([saved], filename, { type: "application/json" }));
       $("#file").files = transfer.files;
       $("#file").dispatchEvent(new win.Event("change", { bubbles: true }));
       for (let i = 0; i < 100 && $("#status").textContent !== "Historia cargada."; i++) {
@@ -101,7 +107,7 @@
       story.sections[1].name = "From 1: If you want to fight";
       story.sections[2].name = "Section 2 Saltar";
       const legacy = new win.DataTransfer();
-      legacy.items.add(new win.File([JSON.stringify(story)], "old.json", { type: "application/json" }));
+      legacy.items.add(new win.File([JSON.stringify(story)], "old.sto", { type: "application/json" }));
       $("#status").textContent = "";
       $("#file").files = legacy.files;
       $("#file").dispatchEvent(new win.Event("change", { bubbles: true }));

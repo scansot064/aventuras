@@ -1,6 +1,6 @@
 window.locales = window.locales || {};
 window.locales.es = {
-  appTitle: "Creador de aventuras", language: "Idioma", save: "Guardar JSON", load: "Cargar JSON",
+  appTitle: "Creador de aventuras", tagline: "Un taller de historias", language: "Idioma", save: "Guardar historia", load: "Cargar historia",
   print: "Guardar PDF A5", storyInfo: "Información de la historia", title: "Título", author: "Autor",
   mindMap: "Mapa de la historia", addSection: "Añadir sección",
   mapHint: "Despliega las ramas y selecciona una sección para editarla. La primera sección es el inicio.",
@@ -14,7 +14,7 @@ window.locales.es = {
   transitionText: "Texto de transición de las opciones", defaultTransition: "Ve a la página", end: "FIN", by: "por",
   deleteConfirm: "¿Eliminar esta sección? Se borrarán los destinos de las opciones y bucles que apuntan a ella.",
   loadConfirm: "¿Reemplazar la historia actual con el archivo? Guarda tu trabajo primero.",
-  saveWarning: "Importante: Guarda tu trabajo en JSON con frecuencia. Los cambios sin guardar se perderán si actualizas o cierras esta página.",
+  saveWarning: "Importante: Guarda tu historia con frecuencia. Los cambios sin guardar se perderán si actualizas o cierras esta página.",
   loadError: "No se pudo cargar la historia: {message}", saved: "Historia guardada.",
   loaded: "Historia cargada.", invalidFile: "Archivo de historia no válido o no compatible.",
   invalidReferences: "Cada opción y bucle activado necesita un destino antes de imprimir.",
