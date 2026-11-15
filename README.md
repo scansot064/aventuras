@@ -16,10 +16,16 @@ Use **Save A5 PDF** to download a book with an unnumbered cover and A5 pages. Th
 
 The PDF embeds Unicode Noto Sans and Noto Emoji fonts. Most emoji, including many skin-tone and combined sequences, use color artwork; emoji without artwork fall back to the monochrome font when supported. No font or artwork set covers all Unicode: unsupported characters or emoji sequences produce an error rather than being silently replaced.
 
+## License
+
+The original project materials are licensed under [Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/). See [LICENSE](LICENSE) and the [full license terms](https://creativecommons.org/licenses/by-nc/4.0/legalcode). Third-party components in `vendor/` retain their own licenses:
+
 The PDF library is pdf-lib 1.17.1, vendored for offline use under its [MIT license](vendor/pdf-lib/LICENSE.md), with [bundled dependency licenses](vendor/pdf-lib/licenses/). Its version is also recorded in `package.json`.
 
 The embedded fonts are unmodified [Noto Sans](https://github.com/notofonts/noto-fonts/tree/main/hinted/ttf/NotoSans) and [Noto Emoji](https://github.com/google/fonts/tree/main/ofl/notoemoji), distributed under their [font licenses](vendor/fonts/). Font embedding uses [fontkit](vendor/fontkit/LICENSE).
 
 Color emoji artwork is [Twemoji](https://github.com/jdecked/twemoji), © 2019 Twitter, Inc. and contributors, licensed under [CC BY 4.0](vendor/twemoji/CC-BY-4.0.txt). Artwork from [@twemoji/svg](https://github.com/boywithkeyboard/twemoji_svg) is optimized and rasterized for PDFs. PDFs containing this artwork include attribution on the cover.
+
+## Tests
 
 To run the checks, open [tests/app.html](tests/app.html) and [tests/pdf.html](tests/pdf.html) in a browser and confirm each reports `PASS`.
