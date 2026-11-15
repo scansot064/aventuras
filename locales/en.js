@@ -3,6 +3,8 @@ window.locales.en = {
   appTitle: "Adventure Maker", tagline: "A storytelling workshop", language: "Language", save: "Save Story", load: "Load Story",
   print: "Save A5 PDF", storyInfo: "Story information", title: "Title", author: "Author",
   mindMap: "Story map", addSection: "Add section",
+  statistics: "Story overview", totalSections: "Total sections", totalEndings: "Number of endings", totalWords: "Total words",
+  unfinishedStory: "There are unfinished story lines", completeStory: "All story lines are complete",
   mapHint: "Expand branches and select a section to edit it. The first section is the starting point.",
   sectionName: "Section name (editor only)", content: "Story text", bold: "Bold", italic: "Italic",
   fontSize: "Text size", small: "Small", normal: "Normal", large: "Large",

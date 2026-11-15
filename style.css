@@ -85,6 +85,10 @@ label > span, #content-label { font-size: .88rem; font-weight: 700; }
 .info summary h2 { display: inline; margin: 0; }
 .info summary h2::before { content: none; }
 .fields { display: grid; gap: .8rem; margin-top: 1rem; }
+.statistics dl { margin: 0; }
+.statistics dl > div { display: flex; justify-content: space-between; gap: 1rem; padding: .35rem 0; border-bottom: 1px solid #d5c9aa; }
+.statistics dd { margin: 0; font-weight: 700; }
+.story-progress { margin: .85rem 0 0; line-height: 1.4; font-weight: 700; }
 .workspace { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 1.25rem; align-items: start; }
 .hint { color: #5d5948; font-size: .88rem; line-height: 1.5; }
 .editor > label:not(.check) { margin-bottom: .75rem; }

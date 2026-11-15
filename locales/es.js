@@ -3,6 +3,8 @@ window.locales.es = {
   appTitle: "Creador de aventuras", tagline: "Un taller de historias", language: "Idioma", save: "Guardar historia", load: "Cargar historia",
   print: "Guardar PDF A5", storyInfo: "Información de la historia", title: "Título", author: "Autor",
   mindMap: "Mapa de la historia", addSection: "Añadir sección",
+  statistics: "Resumen de la historia", totalSections: "Total de secciones", totalEndings: "Número de finales", totalWords: "Total de palabras",
+  unfinishedStory: "Hay líneas de la historia sin terminar", completeStory: "Todas las líneas de la historia están completas",
   mapHint: "Despliega las ramas y selecciona una sección para editarla. La primera sección es el inicio.",
   sectionName: "Nombre de la sección (solo en el editor)", content: "Texto de la historia", bold: "Negrita", italic: "Cursiva",
   fontSize: "Tamaño del texto", small: "Pequeño", normal: "Normal", large: "Grande",

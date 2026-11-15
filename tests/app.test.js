@@ -21,6 +21,12 @@
       assert($("footer").textContent.includes("Unsaved changes will be lost"), "Show the save warning in English");
       assert($("#save").textContent === "Save Story" && $("#load").textContent === "Load Story" &&
         $("#file").accept === ".sto", "Use story labels and filter for story files");
+      assert($("#total-sections").textContent === "1" && $("#total-endings").textContent === "0" &&
+        $("#total-words").textContent === "0" && $("#progress-icon").textContent === "❌",
+        "Show an unfinished new story in the overview");
+      $("#content").innerHTML = "<p>¡Hola, <b>amigo</b>!</p><div>¿Qué <i>tal</i>?</div> 😀<br>otra línea foo<b>bar</b>";
+      $("#content").dispatchEvent(new win.Event("input", { bubbles: true }));
+      assert($("#total-words").textContent === "7", "Count story words across formatting and block breaks");
       const info = $(".sidebar > details.info");
       assert(info && !info.open && $(".sidebar > .panel:first-child #map"), "Place collapsed story information below the map");
       info.querySelector("summary").click();
@@ -36,6 +42,7 @@
       assert($(".choice-transition").textContent === "Go to page", "Show the default transition");
       change("#language", "es", "change");
       assert($(".choice-transition").textContent === "Ve a la página", "Localize the default transition");
+      assert($("#story-progress").textContent === "Hay líneas de la historia sin terminar", "Localize story progress");
       assert($("#save").textContent === "Guardar historia" && $("#load").textContent === "Cargar historia",
         "Localize the story file controls");
       assert($("footer").textContent.includes("Los cambios sin guardar se perderán"), "Localize the save warning");
@@ -43,6 +50,8 @@
       change(".choice input", "If you want to fight");
       change(".choice select", "create", "change");
       assert($(".choice select").value === "2", "Link the newly created section");
+      assert($("#total-sections").textContent === "2" && $("#total-words").textContent === "7",
+        "Count new sections but exclude choice text from words");
       assert($("#map").textContent.includes("2. If you want to fight"),
         "Name the new section after the choice");
       assert([...doc.querySelectorAll(".map-link")].some(button => button.textContent === "2. If you want to fight"),
@@ -134,6 +143,53 @@
       change("#loop-target", "1", "change");
       assert([...doc.querySelectorAll(".map-link")].some(button => button.textContent === "Volver a la sección → 1. Volver a la sección"),
         "Keep loop labels even when they match the destination name");
+
+      const overviewStory = win.Story.createStory();
+      overviewStory.sections[0].content = "<p>¡Hola, <b>amigo</b>!</p><div>¿Qué <i>tal</i>?</div> 😀<br>otra línea foo<b>bar</b>";
+      overviewStory.sections[0].loop = true;
+      overviewStory.sections[0].loopTarget = 1;
+      const finished = win.Story.createSection(2);
+      finished.ending = true;
+      finished.content = "End of road";
+      finished.choices.push({ text: "", target: null });
+      finished.loop = true;
+      const unfinished = win.Story.createSection(3);
+      overviewStory.sections.push(finished, unfinished);
+      overviewStory.nextId = 4;
+      const overviewFile = new win.DataTransfer();
+      overviewFile.items.add(new win.File([JSON.stringify(overviewStory)], "overview.sto", { type: "application/json" }));
+      $("#status").textContent = "";
+      $("#file").files = overviewFile.files;
+      $("#file").dispatchEvent(new win.Event("change", { bubbles: true }));
+      for (let i = 0; i < 100 && $("#status").textContent !== "Historia cargada."; i++) {
+        await new Promise(resolve => setTimeout(resolve, 10));
+      }
+      assert($("#status").textContent === "Historia cargada." &&
+        $("#total-sections").textContent === "3" && $("#total-endings").textContent === "1" &&
+        $("#total-words").textContent === "10" && $("#progress-icon").textContent === "❌",
+        "Include unconnected sections and update all statistics when loading");
+      [...doc.querySelectorAll(".map-link")].find(button => button.textContent === "3. Sin nombre").click();
+      $("#ending").click();
+      assert($("#total-endings").textContent === "2" && $("#progress-icon").textContent === "✅" &&
+        $("#story-progress").textContent === "Todas las líneas de la historia están completas",
+        "Accept loops and ignore branches suppressed by endings");
+      [...doc.querySelectorAll(".map-link")].find(button => button.textContent === "1. Sin nombre").click();
+      change("#loop-target", "", "change");
+      assert($("#progress-icon").textContent === "❌", "Detect an enabled loop without a destination");
+      change("#loop-target", "1", "change");
+      $("#add-choice").click();
+      assert($("#progress-icon").textContent === "❌", "Detect a new unfinished choice");
+      change(".choice input", "Continue");
+      change(".choice select", "1", "change");
+      assert($("#progress-icon").textContent === "✅", "Accept a completed choice and intentional loop");
+      change(".choice input", "");
+      assert($("#progress-icon").textContent === "❌", "Detect an empty choice even with a destination");
+      $(".choice button").click();
+      assert($("#progress-icon").textContent === "✅", "Update progress when a choice is removed");
+      [...doc.querySelectorAll(".map-link")].find(button => button.textContent === "2. Sin nombre").click();
+      $("#delete-section").click();
+      assert($("#total-sections").textContent === "2" && $("#total-endings").textContent === "1" &&
+        $("#total-words").textContent === "7", "Update statistics when deleting a section");
       result.textContent = "PASS";
     } catch (error) {
       result.textContent = `FAIL: ${error.message}`;

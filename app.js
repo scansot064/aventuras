@@ -32,6 +32,39 @@
     return node;
   }
 
+  const wordSegmenter = new Intl.Segmenter(undefined, { granularity: "word" });
+
+  function countWords(html) {
+    const template = document.createElement("template");
+    template.innerHTML = html;
+    function text(node) {
+      if (node.nodeType === Node.TEXT_NODE) return node.textContent;
+      if (node.nodeName === "BR") return " ";
+      const contents = Array.from(node.childNodes, text).join("");
+      return ["P", "DIV"].includes(node.nodeName) ? ` ${contents} ` : contents;
+    }
+    let count = 0;
+    for (const segment of wordSegmenter.segment(text(template.content))) {
+      if (segment.isWordLike) count++;
+    }
+    return count;
+  }
+
+  function renderStatistics() {
+    const sections = story.sections;
+    const unfinished = sections.some(section => !section.ending && (
+      (!section.choices.length && !section.loop) ||
+      (section.loop && section.loopTarget === null) ||
+      section.choices.some(choice => choice.target === null || !choice.text.trim())
+    ));
+    $("total-sections").textContent = sections.length;
+    $("total-endings").textContent = sections.filter(section => section.ending).length;
+    $("total-words").textContent = sections.reduce((total, section) => total + countWords(section.content), 0);
+    $("progress-icon").textContent = unfinished ? "❌" : "✅";
+    const message = t(unfinished ? "unfinishedStory" : "completeStory");
+    if ($("story-progress").textContent !== message) $("story-progress").textContent = message;
+  }
+
   // Only formatting produced by the editor is allowed in imported or printed text.
   function cleanContent(html) {
     const template = document.createElement("template");
@@ -244,6 +277,7 @@
         container.appendChild(renderNode(section.id, `other:${section.id}`, new Set(), null));
       }
     }
+    renderStatistics();
   }
 
   function updateDestinations() {
@@ -330,7 +364,10 @@
       if (labels.has(option.value)) option.textContent = labels.get(option.value);
     });
   });
-  $("content").addEventListener("input", event => { currentSection().content = cleanContent(event.target.innerHTML); });
+  $("content").addEventListener("input", event => {
+    currentSection().content = cleanContent(event.target.innerHTML);
+    renderStatistics();
+  });
   $("content").addEventListener("paste", event => {
     event.preventDefault();
     document.execCommand("insertText", false, event.clipboardData.getData("text/plain"));
@@ -348,6 +385,7 @@
     }
     document.execCommand(command, false, value);
     currentSection().content = cleanContent($("content").innerHTML);
+    renderStatistics();
   }
   document.querySelectorAll("[data-command]").forEach(button => {
     button.addEventListener("mousedown", event => event.preventDefault());
@@ -367,6 +405,7 @@
   $("add-choice").addEventListener("click", () => {
     currentSection().choices.push({ text: "", target: null });
     renderChoices();
+    renderStatistics();
   });
   $("add-section").addEventListener("click", () => {
     const section = Story.createSection(story.nextId++);

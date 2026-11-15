@@ -10,6 +10,8 @@ An ending prints END (or FIN in Spanish) and suppresses choices and loops until 
 
 Set **Choice transition text** in story information to customize the text before every choice and loop page number. It also appears beside each choice destination while editing. Leave it empty to print only the number. Until edited, it defaults to “Go to page” or “Ve a la página” in the selected interface language. A custom value stays unchanged when the interface language changes.
 
+The story overview counts sections, endings, and words in story text (excluding choice text). It checks every section, including unconnected ones: a non-ending with no choices or loop, an empty or unlinked choice, or an enabled loop without a destination is unfinished. Loops with destinations count as complete, and choices and loops suppressed by an ending are ignored.
+
 Save periodically using **Save Story** and reopen the `.sto` file with **Load Story**. Files contain story text, formatting, choices, and links; they are not saved automatically. Loading replaces the current story. Keep a backup of your story file. The `.sto` format contains JSON; to open a story saved by an earlier version, rename its `.json` extension to `.sto` first.
 
 Use **Save A5 PDF** to download a book with an unnumbered cover and A5 pages. The starting section begins on page 1. Other sections are shuffled on each export, always begin on a new page, and can continue across subsequent pages; choices and loops refer to the destination's actual first page. Each section's first page shows its physical page number at the top; continuation pages count toward page numbers but do not display them. The language selected in the editor determines printed labels.
